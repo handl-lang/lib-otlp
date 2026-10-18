@@ -34,7 +34,7 @@ pub use stub::{OtlpEvent, RecordedEvent, RecordedSpan, StubOtlpState};
 /// The handl source declaring the otlp `op` interface — the single source
 /// of truth for the OTLP API surface. Loaded at compile time from the
 /// kit-stdlib data dir.
-const OTLP_HNL: &str = include_str!("../../../handl-packages/otlp/otlp.hnl");
+const OTLP_HNL: &str = include_str!("../handl-packages/otlp/otlp.hnl");
 
 /// Build an [`OpRegistry`](handl_plugin_lib_handl::OpRegistry) for the
 /// OTLP ops, registering Rust handls that delegate to the given

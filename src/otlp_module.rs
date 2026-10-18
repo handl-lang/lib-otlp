@@ -11,7 +11,7 @@ use crate::state::{MetricKind, MetricOptions, OtlpConfig, OtlpState, StartSpanOp
 /// The handl source declaring the otlp `op` interface — the single source
 /// of truth for the OTLP API surface. Loaded at compile time from the
 /// kit-stdlib data dir.
-const OTLP_HNL: &str = include_str!("../../../handl-packages/otlp/otlp.hnl");
+const OTLP_HNL: &str = include_str!("../handl-packages/otlp/otlp.hnl");
 
 /// Module adapter for [`OtlpState`] — exposes `otlp.*` functions.
 ///
