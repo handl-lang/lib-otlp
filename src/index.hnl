@@ -1,7 +1,8 @@
 --- otlp — OTLP telemetry client. `.hnl` contract; impl = native `otlp_c.*`
 --- ops (a `-c` backend — `lib-otlp` Rust impls behind the `otlp_c` module).
---- The connection is a VALUE: `otlp.configure(url) -> conn`, subsequent ops
---- take `conn` — pure-shape handle-passing, not ambient module state.
+--- `otlp_c` ops are STATEFUL: `configure(config)` sets the connection,
+--- `start_span(name)` returns the span id — conn is internal to the state.
+--- The `.hnl` contract exposes conn-as-value shape; conn is a token (the url).
 cap "otlp.configure"
 cap "otlp.start_span"
 cap "otlp.end_span"
@@ -33,13 +34,13 @@ op "otlp.shutdown" : Value -> Value
 from "otlp_c" import * as otlp_c
 
 do {
-  { configure: (url) ~> otlp_c.configure(url),
-    start_span: (conn, name) ~> otlp_c.start_span(conn, name),
+  { configure: (url) ~> { otlp_c.configure(url); url },
+    start_span: (conn, name) ~> otlp_c.start_span(name),
     end_span: (span) ~> otlp_c.end_span(span),
-    set_attribute: (conn, kv) ~> otlp_c.set_attribute(conn, kv),
+    set_attribute: (conn, kv) ~> otlp_c.set_attribute(kv),
     add_event: (span, ev) ~> otlp_c.add_event(span, ev),
-    record_log: (conn, log) ~> otlp_c.record_log(conn, log),
-    record_metric: (conn, metric) ~> otlp_c.record_metric(conn, metric),
-    flush: (conn) ~> otlp_c.flush(conn),
-    shutdown: (conn) ~> otlp_c.shutdown(conn) }
+    record_log: (conn, log) ~> otlp_c.record_log(log),
+    record_metric: (conn, metric) ~> otlp_c.record_metric(metric),
+    flush: (conn) ~> otlp_c.flush(()),
+    shutdown: (conn) ~> otlp_c.shutdown(()) }
 }
