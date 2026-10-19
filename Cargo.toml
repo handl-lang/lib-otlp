@@ -1,5 +1,5 @@
 [package]
-name = "handl-plugin-lib-otlp"
+name = "handl-lib-otlp"
 version = "0.1.0"
 edition = "2024"
 description = "OpenTelemetry/OTLP module for the handl runtime."
@@ -7,8 +7,8 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/handl-lang/lib-otlp"
 
 [dependencies]
-# ADR-0128 Phase 4: platform crates are git deps; the workspace-root
-# `[patch]` resolves them from the sibling `../host` checkout.
+
+[patch]` resolves them from the sibling `../host` checkout.
 handl-plugin-lib-handl = { git = "https://github.com/handl-lang/host", branch = "main" }
 handl-platform = { git = "https://github.com/handl-lang/host", branch = "main" }
 serde_json = "1"
