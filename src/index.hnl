@@ -34,7 +34,7 @@ op "otlp.shutdown" : Value -> Value
 from "otlp_c" import * as otlp_c
 
 do {
-  { configure: (url) ~> { otlp_c.configure(url); url },
+  { configure: (url) ~> { otlp_c.configure({endpoint: url}); url },
     start_span: (conn, name) ~> otlp_c.start_span(name),
     end_span: (span) ~> otlp_c.end_span(span),
     set_attribute: (conn, kv) ~> otlp_c.set_attribute(kv),
