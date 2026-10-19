@@ -33,12 +33,12 @@ op "otlp.shutdown" : Value -> Value
 
 from "ffi" import * as ffi
 
-export configure := (url) ~> ffi.call("otlp.configure", url)
-export start_span := (conn, name) ~> ffi.call("otlp.start_span", conn, name)
-export end_span := (span) ~> ffi.call("otlp.end_span", span)
-export set_attribute := (conn, kv) ~> ffi.call("otlp.set_attribute", conn, kv)
-export add_event := (span, ev) ~> ffi.call("otlp.add_event", span, ev)
-export record_log := (conn, log) ~> ffi.call("otlp.record_log", conn, log)
-export record_metric := (conn, metric) ~> ffi.call("otlp.record_metric", conn, metric)
-export flush := (conn) ~> ffi.call("otlp.flush", conn)
-export shutdown := (conn) ~> ffi.call("otlp.shutdown", conn)
+export configure := (url) ~> ffi.call("otlp_c.configure", url)
+export start_span := (conn, name) ~> ffi.call("otlp_c.start_span", conn, name)
+export end_span := (span) ~> ffi.call("otlp_c.end_span", span)
+export set_attribute := (conn, kv) ~> ffi.call("otlp_c.set_attribute", conn, kv)
+export add_event := (span, ev) ~> ffi.call("otlp_c.add_event", span, ev)
+export record_log := (conn, log) ~> ffi.call("otlp_c.record_log", conn, log)
+export record_metric := (conn, metric) ~> ffi.call("otlp_c.record_metric", conn, metric)
+export flush := (conn) ~> ffi.call("otlp_c.flush", conn)
+export shutdown := (conn) ~> ffi.call("otlp_c.shutdown", conn)
