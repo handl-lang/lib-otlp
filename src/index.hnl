@@ -33,6 +33,8 @@ op "otlp.shutdown" : Value -> Value
 
 
 
+from "otlp_c" import * as otlp_c
+
 export configure := (url) ~> otlp_c.configure(url)
 export start_span := (conn, name) ~> otlp_c.start_span(conn, name)
 export end_span := (span) ~> otlp_c.end_span(span)
