@@ -31,14 +31,14 @@ op "otlp.flush" : Value -> Value
 op "otlp.shutdown" : Value -> Value
   guarantee: True
 
-from "ffi" import * as ffi
 
-export configure := (url) ~> ffi.call("otlp_c.configure", url)
-export start_span := (conn, name) ~> ffi.call("otlp_c.start_span", conn, name)
-export end_span := (span) ~> ffi.call("otlp_c.end_span", span)
-export set_attribute := (conn, kv) ~> ffi.call("otlp_c.set_attribute", conn, kv)
-export add_event := (span, ev) ~> ffi.call("otlp_c.add_event", span, ev)
-export record_log := (conn, log) ~> ffi.call("otlp_c.record_log", conn, log)
-export record_metric := (conn, metric) ~> ffi.call("otlp_c.record_metric", conn, metric)
-export flush := (conn) ~> ffi.call("otlp_c.flush", conn)
-export shutdown := (conn) ~> ffi.call("otlp_c.shutdown", conn)
+
+export configure := (url) ~> otlp_c.configure(url)
+export start_span := (conn, name) ~> otlp_c.start_span(conn, name)
+export end_span := (span) ~> otlp_c.end_span(span)
+export set_attribute := (conn, kv) ~> otlp_c.set_attribute(conn, kv)
+export add_event := (span, ev) ~> otlp_c.add_event(span, ev)
+export record_log := (conn, log) ~> otlp_c.record_log(conn, log)
+export record_metric := (conn, metric) ~> otlp_c.record_metric(conn, metric)
+export flush := (conn) ~> otlp_c.flush(conn)
+export shutdown := (conn) ~> otlp_c.shutdown(conn)
