@@ -30,6 +30,8 @@ op "otlp.flush" : Value -> Value
 op "otlp.shutdown" : Value -> Value
   guarantee: True
 
+from "otlp_c" import * as otlp_c
+
 do {
   { configure: (url) ~> otlp_c.configure(url),
     start_span: (conn, name) ~> otlp_c.start_span(conn, name),
