@@ -1,8 +1,7 @@
---- otlp — OTLP telemetry client. `.hnl` contract; impl = `ffi.call` into a
---- native exporter (a `-c` backend — `lib-otlp` Rust impls behind the FFI
---- registry). The connection is a VALUE: `otlp.configure(url) -> conn`,
---- subsequent ops take `conn` — pure-shape handle-passing, not ambient
---- module state (like `kv_map` store-as-value).
+--- otlp — OTLP telemetry client. `.hnl` contract; impl = native `otlp_c.*`
+--- ops (a `-c` backend — `lib-otlp` Rust impls behind the `otlp_c` module).
+--- The connection is a VALUE: `otlp.configure(url) -> conn`, subsequent ops
+--- take `conn` — pure-shape handle-passing, not ambient module state.
 cap "otlp.configure"
 cap "otlp.start_span"
 cap "otlp.end_span"
@@ -31,14 +30,14 @@ op "otlp.flush" : Value -> Value
 op "otlp.shutdown" : Value -> Value
   guarantee: True
 
-
-
-export configure := (url) ~> otlp_c.configure(url)
-export start_span := (conn, name) ~> otlp_c.start_span(conn, name)
-export end_span := (span) ~> otlp_c.end_span(span)
-export set_attribute := (conn, kv) ~> otlp_c.set_attribute(conn, kv)
-export add_event := (span, ev) ~> otlp_c.add_event(span, ev)
-export record_log := (conn, log) ~> otlp_c.record_log(conn, log)
-export record_metric := (conn, metric) ~> otlp_c.record_metric(conn, metric)
-export flush := (conn) ~> otlp_c.flush(conn)
-export shutdown := (conn) ~> otlp_c.shutdown(conn)
+do {
+  { configure: (url) ~> otlp_c.configure(url),
+    start_span: (conn, name) ~> otlp_c.start_span(conn, name),
+    end_span: (span) ~> otlp_c.end_span(span),
+    set_attribute: (conn, kv) ~> otlp_c.set_attribute(conn, kv),
+    add_event: (span, ev) ~> otlp_c.add_event(span, ev),
+    record_log: (conn, log) ~> otlp_c.record_log(conn, log),
+    record_metric: (conn, metric) ~> otlp_c.record_metric(conn, metric),
+    flush: (conn) ~> otlp_c.flush(conn),
+    shutdown: (conn) ~> otlp_c.shutdown(conn) }
+}
