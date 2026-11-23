@@ -1,0 +1,55 @@
+# otlp-drop-native-self-import — first real codemod.yaml, dogfooding
+# hnl-tool-codemod on the pl-0002 handl-ify migration (PL-004 T-087).
+#
+# Migration context (project/plans/pl-0002 "otlp wiring" section): the
+# otlp `.hnl` contract's `from "otlp_c" import * as otlp_c` binds the
+# *empty* module record of the native-ops backend (`otlp_c` is a
+# ModuleSpec with ops, no `.hnl` fields). Qualified `otlp_c.*` calls
+# are meant to dispatch through the module registry, so the self-alias
+# import is the documented blocker behind `otlp.configure` 404ing.
+# This codemod deletes exactly that statement shape — `path` AND
+# `alias` both `"otlp_c"` — leaving `./`-relative imports, renamed
+# aliases (`import * as sh`), and named imports (`import configure`)
+# untouched.
+#
+# Known gap (verified 2026-11-23): the engine raw-parses each statement
+# (lex_pattern + Pratt, no desugar, no declaration-line stripping), and
+# src/index.hnl's `cap`/`op "…" : T -> T` contract declarations do not
+# parse — the file is skipped with an honest ParseError diagnostic, so
+# today this codemod plans cleanly but produces no Change on the real
+# tree. It fires as soon as the contract-decl gap closes (module
+# loader's `strip_declaration_lines` precedent) or the file is
+# reformatted to parseable statements.
+name: otlp-drop-native-self-import
+version: 1
+targets:
+  - language: handl
+    glob: "src/**/*.hnl"
+    unparse: preserve
+rules:
+  # The migration fix: drop `from "otlp_c" import * as otlp_c`.
+  - id: drop-otlp-c-self-import
+    scope: file
+    match:
+      kind: stmt.import
+      when:
+        And:
+          - PayloadEq: { path: "path", value: "otlp_c" }
+          - PayloadEq: { path: "alias", value: "otlp_c" }
+    rewrite: { delete: true }
+
+  # Lint-as-codemod observe rule: report every remaining import
+  # statement for review (no rewrite — diagnostics only, per P-002's
+  # "lint rules as codemod rules" path).
+  - id: flag-remaining-imports
+    scope: file
+    match: stmt.import
+
+  # Engine-context seam: `requires:` with no registered provider is an
+  # honest EngineUnavailable diagnostic under on_engine_error: skip —
+  # the CLI wires no concrete engine providers yet (T-085 boundary).
+  - id: imports-need-typecheck-demo
+    scope: file
+    requires: [typecheck]
+    on_engine_error: skip
+    match: stmt.import
