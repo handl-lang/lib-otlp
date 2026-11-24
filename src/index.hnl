@@ -18,23 +18,23 @@ cap "otlp.record_log"
 cap "otlp.record_metric"
 cap "otlp.flush"
 cap "otlp.shutdown"
-op "otlp.configure" : Value -> Value
+op "otlp.configure" : Value ~> Value
   guarantee: True
-op "otlp.start_span" : (Value * String) -> Value
+op "otlp.start_span" : (Value * String) ~> Value
   guarantee: True
-op "otlp.end_span" : Value -> Value
+op "otlp.end_span" : Value ~> Value
   guarantee: True
-op "otlp.set_attribute" : (Value * Value) -> Value
+op "otlp.set_attribute" : (Value * Value) ~> Value
   guarantee: True
-op "otlp.add_event" : (Value * Value) -> Value
+op "otlp.add_event" : (Value * Value) ~> Value
   guarantee: True
-op "otlp.record_log" : (Value * Value) -> Value
+op "otlp.record_log" : (Value * Value) ~> Value
   guarantee: True
-op "otlp.record_metric" : (Value * Value) -> Value
+op "otlp.record_metric" : (Value * Value) ~> Value
   guarantee: True
-op "otlp.flush" : Value -> Value
+op "otlp.flush" : Value ~> Value
   guarantee: True
-op "otlp.shutdown" : Value -> Value
+op "otlp.shutdown" : Value ~> Value
   guarantee: True
 
 from "otlp_c" import * as otlp_c
