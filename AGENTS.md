@@ -13,7 +13,7 @@ native impl lives behind `otlp_c.*` ops (`lib-otlp-c`,
 | `src/otlp_module/tests.rs` | module tests (Rust side of the package) |
 | `handl-packages/otlp/otlp.hnl` + `docs/otlp.yml` | the .hnl package + docs |
 | `examples/`, `codemod.yaml` | examples / codemod config |
-| `pkg.hnl`, `scripts/hnl-gate.sh`, `ci.sh` | manifest / gate / bupha entry |
+| `pkg.hnl`, `scripts/hnl-gate.sh`, `workflows/gate.yaml` | manifest / gate / bupha entry |
 
 ## Contract
 
