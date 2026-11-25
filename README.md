@@ -11,7 +11,7 @@ The package ships in two layouts: the `handl-packages/otlp` package
 ```text
 handl-packages/otlp/   the .hnl package + docs
 src/                   the module tree
-ci.sh                  bupha entry → scripts/hnl-gate.sh
+workflows/gate.yaml                  bupha entry (handl-gates) → scripts/hnl-gate.sh
 ```
 
 ## Gate
