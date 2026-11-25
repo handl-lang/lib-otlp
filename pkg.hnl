@@ -1,2 +1,2 @@
 -- lib-otlp: package manifest.
-{ modules: ["otlp"], description: "OTLP telemetry contract — cap/op surface; native impl behind otlp_c ops.", license: "MIT" }
+{ modules: ["otlp"], name: "otlp", description: "OTLP telemetry contract — cap/op surface; native impl behind otlp_c ops.", license: "MIT" }
